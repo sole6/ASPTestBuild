@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="http://localhost:51048/signalr/hubs"></script>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    <script>
+        $(function () {
+            $.connection.hub.url = 'http://localhost:51048/signalr';
+            var MyHub = $.connection.myHub;          
+
+            MyHub.client.hello = function () {
+                console.log("Hello from ASP.NET Web API");
+            };
+            $.connection.hub.start().done(function () {
+                console.log("started");
+            }).fail(function (result) {
+                console.log(result);
+            });
+         
+        });
+    </script>
+
+</body>
+</html>
