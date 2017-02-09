@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    <ul id="discussion"></ul>
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.1.js"></script>
+    <script src="http://localhost:50623/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.connection.hub.url = 'http://localhost:50623/signalr';
+            var notif = $.connection.Notification;
+            notif.client.broadcastMessage = function (message) {
+                var encodingMsg = $('<div/>').text(message).html();
+                $('#discussion').append('<li>' + encodingMsg + '</li>');
+            };
+            $.connection.hub.start().done(function () {
+                notif.server.getDeviceStatusList();
+            });
+        });
+    </script>
+
+</body>
+</html>

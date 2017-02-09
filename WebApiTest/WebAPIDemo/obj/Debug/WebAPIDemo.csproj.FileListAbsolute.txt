@@ -95,3 +95,5 @@ C:\Users\sayele\Documents\ASPTestBuild\WebApiTest\WebAPIDemo\bin\System.Web.Cors
 C:\Users\sayele\Documents\ASPTestBuild\WebApiTest\WebAPIDemo\bin\Microsoft.AspNet.SignalR.Core.xml
 C:\Users\sayele\Documents\ASPTestBuild\WebApiTest\WebAPIDemo\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
 C:\Users\sayele\Documents\ASPTestBuild\WebApiTest\WebAPIDemo\bin\Microsoft.Owin.Cors.xml
+C:\Users\sayele\Documents\ASPTestBuild\WebApiTest\WebAPIDemo\bin\System.Web.Http.Cors.dll
+C:\Users\sayele\Documents\ASPTestBuild\WebApiTest\WebAPIDemo\bin\System.Web.Http.Cors.xml

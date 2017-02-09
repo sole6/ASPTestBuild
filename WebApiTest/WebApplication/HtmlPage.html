@@ -3,27 +3,75 @@
 <head>
     <script src="Scripts/jquery-1.6.4.min.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="Scripts/angular.min.js"></script>
     <script src="http://localhost:51048/signalr/hubs"></script>
     <title></title>
 	<meta charset="utf-8" />
 </head>
-<body>
+
+<body ng-app="myApp" ng-controller="myCtrl" ng-cloak>
+    <input type="button" id="sendMessage" value="Send"  ng-click="postOne();" />
+    <div>
+        <table>
+            <thead>
+            <th>Complaint id</th>
+            <th>Description</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="complaint in complaints ">
+                    <td>{{complaint.Id}}</td>
+                    <td>{{complaint.Name}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  
     <script>
         $(function () {
             $.connection.hub.url = 'http://localhost:51048/signalr';
-            var MyHub = $.connection.myHub;          
+            var MyHub = $.connection.Hub;// create a proxy to signalr hub on web server
 
-            MyHub.client.hello = function () {
-                console.log("Hello from ASP.NET Web API");
-            };
-            $.connection.hub.start().done(function () {
-                console.log("started");
-            }).fail(function (result) {
-                console.log(result);
-            });
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', ['$http', '$scope', function ($http, $scope) {
+                $scope.complaints = [{
+                    "Id": 1,
+                    "Name": "Name 1"
+                }]
+                 
+                    var Contact = {
+                        "Id": 3,
+                        "Name": "Name"
+                    }
+                $scope.postOne = function () {
+                    $http.post('http://localhost:51048/api/Contact/SaveContacts', {
+                        Contact: Contact
+                    }).then(function (success) {
+                     
+                        console.log("success post" + success.data);
+                    }, function (error) {
+
+                    });
+                };
+                MyHub.client.announce = function (contact) {
+                    console.log("Hello from ASP.NET Web API2");
+                    $scope.complaints.push(contact);
+                    $scope.$apply(); // this is outside of angularjs, so need to apply
+                };
+                $.connection.hub.start().done(function () {
+                    console.log("started");
+                    //   MyHub.server.announce(Contact);              
+                }).fail(function (result) {
+                    console.log(result);
+                });
+            }]);
+           
+
+         
          
         });
     </script>
 
 </body>
+
 </html>
