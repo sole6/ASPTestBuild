@@ -4,13 +4,16 @@
     <script src="Scripts/jquery-1.6.4.min.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="Scripts/angular.min.js"></script>
-    <script src="http://localhost:51048/signalr/hubs"></script>
+    <script src="http://localhost/Pyrus/signalr/hubs"></script>
     <title></title>
 	<meta charset="utf-8" />
 </head>
 
 <body ng-app="myApp" ng-controller="myCtrl" ng-cloak>
-    <input type="button" id="sendMessage" value="Send"  ng-click="postOne();" />
+    
+    <button ng-click="postOne();">
+        Send
+    </button>
     <div>
         <table>
             <thead>
@@ -29,28 +32,34 @@
   
     <script>
         $(function () {
-            $.connection.hub.url = 'http://localhost:51048/signalr';
-            var MyHub = $.connection.Hub;// create a proxy to signalr hub on web server
+            $.connection.hub.url = 'http://localhost/Pyrus/signalr';
+            var MyHub = $.connection.Notification;// create a proxy to signalr hub on web server
 
             var app = angular.module('myApp', []);
             app.controller('myCtrl', ['$http', '$scope', function ($http, $scope) {
-                $scope.complaints = [{
-                    "Id": 1,
-                    "Name": "Name 1"
-                }]
+                $scope.complaints = [];
+                $http({
+                    method: "GET", url: "http://localhost/Pyrus/api/Device/GetDeviceLists", cache: false
+                }).then(function (success) {
+                    $scope.complaints = success.data;
+                    console.log("success post" + success.data);
+                }, function (error) {
+                    console.log("error post" + error.data);
+                });
                  
-                    var Contact = {
+                var Device = {
                         "Id": 3,
                         "Name": "Name"
                     }
                 $scope.postOne = function () {
-                    $http.post('http://localhost:51048/api/Contact/SaveContacts', {
-                        Contact: Contact
+                    $http({
+                        method: "POST", url: "http://localhost/Pyrus/api/Device/SaveDevice",
+                        data: Device, cache: false
                     }).then(function (success) {
                      
                         console.log("success post" + success.data);
                     }, function (error) {
-
+                        console.log("error post" + error.data);
                     });
                 };
                 MyHub.client.announce = function (contact) {

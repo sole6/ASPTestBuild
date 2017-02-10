@@ -14,11 +14,11 @@ using WebAPIDemo.Models;
 namespace WebAPIDemo.Controllers
 {
     [System.Web.Http.RoutePrefix("api/Contact")]
-
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ContactController : ApiControllerWithHub<MyHub>
     {
 
-        // Get api/Account/GetAllContacts
+        // Get api/Contact/GetAllContacts
         [System.Web.Http.Route("GetAllContacts")]
         public IEnumerable<Contact> GetAllContacts()
         {
@@ -27,7 +27,7 @@ namespace WebAPIDemo.Controllers
                new Contact { Id=1,Name="Contaxt" }    };
         }
 
-        // POST api/Account/SaveContacts
+        // POST api/Contact/SaveContacts
         [System.Web.Http.Route("SaveContacts")]
         public HttpResponseMessage SaveContacts(Contact Contact)
         {
